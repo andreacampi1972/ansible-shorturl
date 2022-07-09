@@ -1,0 +1,20 @@
+version: "3"
+services:
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    container_name: nginx-proxy
+    environment:
+      - VIRTUAL_PROTO=https
+      - VIRTUAL_PORT=443
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./etc_nginx_certs:/etc/nginx/certs
+      - ./var_log_nginx:/var/log/nginx
+
+networks:
+  default:
+    external:
+      name: nginx-proxy
